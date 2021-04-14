@@ -3,9 +3,7 @@ from sklearn.neighbors import KDTree
 from scipy import spatial
 import math
 import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+import my_plot
 
 def cartesian(latitude, longitude, elevation = 0):
     # Convert to radians
@@ -34,36 +32,12 @@ def find_restaurant(lat, lon, kin = 1):
         }
         temp.append(one_result)
     return temp
-    
-def draw_kdtree():
-    #dist, ind = sktree.query(restaurants[:1], k=10)
-    #print(dist)
-    #print(ind)  # indices of 3 closest neighbors
-    #sk_arr = sktree.get_arrays()
-    #print(sk_arr)
-    #plt.scatter(X, Y, s=9, marker=".")
-    #plt.xlabel("X")
-    #plt.ylabel("Y")
-    #plt.title("restaurants")
-    #plt.show()
-
-    fig = plt.figure(figsize=(8, 8))
-    ax = fig.add_subplot(111, projection="3d")
-    ax.scatter(X, Y, Z, marker='.', s=10)
-    
-    #set label and title
-    ax.set_xlabel('x',size=15)
-    ax.set_ylabel('y',size=15)
-    ax.set_zlabel('z',size=15)
-    ax.set_title("restaurants", weight='bold', size=20)
-    
-    plt.show()
 
 if __name__ == "__main__":
     data = pd.read_csv('zomato.csv',encoding='latin-1')
     #print(data.RestaurantName[3])
 
-    # prepare for reading 3D cord
+    # preparing 3D cord
     index_max = 0
     for index, row in data.iterrows():
         index_max += 1
@@ -83,7 +57,9 @@ if __name__ == "__main__":
 
     tree = spatial.KDTree(restaurants)
 
+    # try query by Latitude, Longitude and number of results wanted
     test = find_restaurant(42, 73,5)
     print(test)
-    
-    draw_kdtree()
+
+    # plot 3D graph of data
+    my_plot.draw_kdtree(X,Y,Z)
