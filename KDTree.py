@@ -3,7 +3,7 @@ from sklearn.neighbors import KDTree
 from scipy import spatial
 import math
 import numpy as np
-import my_plot
+from plot.my_plot import draw_kdtree
 
 def cartesian(latitude, longitude, elevation = 0):
     # Convert to radians
@@ -63,4 +63,4 @@ if __name__ == "__main__":
         print(r)
 
     # plot 3D graph of data
-    my_plot.draw_kdtree(X,Y,Z)
+    draw_kdtree(X,Y,Z)
