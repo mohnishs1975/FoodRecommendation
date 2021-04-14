@@ -59,7 +59,8 @@ if __name__ == "__main__":
 
     # try query by Latitude, Longitude and number of results wanted
     test = find_restaurant(42, 73,5)
-    print(test)
+    for r in test:
+        print(r)
 
     # plot 3D graph of data
     my_plot.draw_kdtree(X,Y,Z)
