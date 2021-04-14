@@ -63,4 +63,4 @@ if __name__ == "__main__":
         print(r)
 
     # plot 3D graph of data
-    draw_kdtree(X,Y,Z)
+    # draw_kdtree(X,Y,Z)
