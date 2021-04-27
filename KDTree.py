@@ -3,7 +3,7 @@ from sklearn.neighbors import KDTree
 from scipy import spatial
 import math
 import numpy as np
-from plot.my_plot import draw_kdtree
+
 
 def cartesian(latitude, longitude, elevation = 0):
     # Convert to radians
@@ -24,10 +24,10 @@ def find_restaurant(lat, lon, kin = 1):
         index = ind[0][i]
         distance = dist[0][i]
         one_result =  {
-            'name' : data.RestaurantName[index],
-            'latitude' : data.Latitude[index],
-            'longitude' : data.Longitude[index],
-            'Address' : data.Address[index],
+            'name' : cuisine.RestaurantName[index],
+            'latitude' : cuisine.Latitude[index],
+            'longitude' : cuisine.Longitude[index],
+            'Address' : cuisine.Address[index],
             'distance' : distance                               # the distance between target pos and the closest one
         }
         temp.append(one_result)
@@ -40,11 +40,14 @@ def filter(parameter, index):
 
 if __name__ == "__main__":
     data = pd.read_csv('zomato.csv',encoding='latin-1')
-    #print(data.RestaurantName[3])
+    
+    cuisine = []
+    cuisine = filter("Cuisines", "Chinese")
+    cuisine = cuisine.reset_index()
 
     # preparing 3D cord
     index_max = 0
-    for index, row in data.iterrows():
+    for index, row in cuisine.iterrows():
         index_max += 1
     X = np.zeros([index_max,1])
     Y = np.zeros([index_max,1])
@@ -52,7 +55,7 @@ if __name__ == "__main__":
 
     restaurants = []
 
-    for index, row in data.iterrows():
+    for index, row in cuisine.iterrows():
         coordinates = [row['Latitude'], row['Longitude']]
         cartesian_coord = cartesian(*coordinates)
         restaurants.append(cartesian_coord)
