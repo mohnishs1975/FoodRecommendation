@@ -33,6 +33,11 @@ def find_restaurant(lat, lon, kin = 1):
         temp.append(one_result)
     return temp
 
+def filter(parameter, index):
+    filtered = []
+    filtered = data[data[parameter].str.contains(index) == True]
+    return filtered
+
 if __name__ == "__main__":
     data = pd.read_csv('zomato.csv',encoding='latin-1')
     #print(data.RestaurantName[3])
