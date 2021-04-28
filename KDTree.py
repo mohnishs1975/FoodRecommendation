@@ -16,21 +16,22 @@ def cartesian(latitude, longitude, elevation = 0):
     Z = R * math.sin(latitude)
     return (X, Y, Z)
 
-def find_restaurant(lat, lon, kin = 1):
+def find_restaurant(lat, lon, threshold, kin = 1):
     temp = []
     cartesian_coord = cartesian(lat, lon)
     dist, ind = tree.query([cartesian_coord], p = 2, k = kin)
     for i in range(ind[0].size):                                        # the index of closest one                             
         index = ind[0][i]
         distance = dist[0][i]
-        one_result =  {
-            'name' : cuisine.RestaurantName[index],
-            'latitude' : cuisine.Latitude[index],
-            'longitude' : cuisine.Longitude[index],
-            'Address' : cuisine.Address[index],
-            'distance' : distance                               # the distance between target pos and the closest one
-        }
-        temp.append(one_result)
+        if distance <= threshold:
+            one_result =  {
+                'name' : cuisine.RestaurantName[index],
+                'latitude' : cuisine.Latitude[index],
+                'longitude' : cuisine.Longitude[index],
+                'Address' : cuisine.Address[index],
+                'distance' : distance                               # the distance between target pos and the closest one
+            }
+            temp.append(one_result)
     return temp
 
 def filter(parameter, index):
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     tree = spatial.KDTree(restaurants)
 
     # try query by Latitude, Longitude and number of results wanted
-    test = find_restaurant(42, 73,5)
+    test = find_restaurant(31, 77, 50, 10)
     for r in test:
         print(r)
 
