@@ -34,14 +34,19 @@ def find_restaurant(lat, lon, threshold, kin = 1):
             temp.append(one_result)
     return temp
 
-def radius_search(lat, lon, threshold, kin = 1):
+def radius_search(lat, lon, threshold, neighbors):
     in_range = []
+    count = 0
     cartesian_coord = cartesian(lat, lon)
     indice = tree.query_ball_point(cartesian_coord, threshold, p = 2)
-    one_result =  {
-        'name' : cuisine.RestaurantName[indice]                     
-    }
-    in_range.append(one_result)
+    for i in range(len(indice)):
+        one_result =  {
+            'name' : cuisine.RestaurantName[indice[i]],
+            'latitude' : cuisine.Latitude[indice[i]],
+            'longitude' : cuisine.Longitude[indice[i]],
+            'Address' : cuisine.Address[indice[i]],                    
+        }
+        in_range.append(one_result)
     return in_range
 
 def filter(parameter, index):
@@ -53,7 +58,7 @@ if __name__ == "__main__":
     data = pd.read_csv('zomato.csv',encoding='latin-1')
     
     cuisine = []
-    cuisine = filter("Cuisines", "North Indian")
+    cuisine = filter("Cuisines", "British")
     cuisine = cuisine.reset_index()
 
     # preparing 3D cord
@@ -77,7 +82,7 @@ if __name__ == "__main__":
     tree = spatial.KDTree(restaurants)
 
     # try query by Latitude, Longitude and number of results wanted
-    test = radius_search(31, 77, 50, 10)
+    test = radius_search(56, -3, 100, 5)
     for r in test:
         print(r)
 
