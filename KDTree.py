@@ -79,7 +79,7 @@ if __name__ == "__main__":
         Y[index] = cartesian_coord[1]
         Z[index] = cartesian_coord[2]
 
-    tree = spatial.KDTree(restaurants)
+    tree = spatial.cKDTree(restaurants)
 
     # try query by Latitude, Longitude and number of results wanted
     test = radius_search(56, -3, 100, 5)
