@@ -2,9 +2,7 @@
 
 # Using pyplot
 
-python -m pip install -U pip
-
-python -m pip install -U matplotlib
+Food Recommendation project using KD-Trees and R-Trees for EC504 Final Project
 
 # KDTree Document
 
